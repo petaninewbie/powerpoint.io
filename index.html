@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran: PowerPoint (Lengkap)</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style untuk sidebar aktif */
+        .sidebar-item.active {
+            background-color: #e0f2fe; /* light-blue-100 */
+            color: #0c4a6e; /*-blue-800 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar (Daftar Isi) -->
+        <aside class="w-full md:w-1/4 bg-white p-6 shadow-lg md:h-screen md:sticky md:top-0 overflow-y-auto">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Daftar Materi</h2>
+            <ul id="sidebarList" class="space-y-2">
+                <!-- Daftar materi akan diisi oleh JavaScript -->
+            </ul>
+        </aside>
+
+        <!-- Konten Utama -->
+        <main class="w-full md:w-3/4 p-8 md:p-12">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
+                <!-- Konten Slide -->
+                <div id="slideContent" class="p-8 md:p-10">
+                    <h1 id="contentTitle" class="text-3xl font-bold text-gray-900 mb-4">Memuat...</h1>
+                    <!-- Gambar Konten -->
+                    <div class="my-6">
+                        <img id="contentImage" 
+                             src="https://placehold.co/800x400/e2e8f0/4a5568?text=Media+Pembelajaran" 
+                             alt="Gambar Ilustrasi" 
+                             class="w-full h-auto rounded-lg shadow-md object-cover"
+                             onerror="this.src='https://placehold.co/800x400/e2e8f0/4a5568?text=Gagal+Memuat+Gambar'">
+                    </div>
+                    <!-- Body Konten -->
+                    <div id="contentBody" class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
+                        <p>Silakan tunggu...</p>
+                    </div>
+                </div>
+
+                <!-- Navigasi -->
+                <div class="bg-gray-50 px-8 py-6 flex justify-between items-center border-t border-gray-200">
+                    <button id="prevButton" class="bg-gray-300 text-gray-800 font-medium py-2 px-5 rounded-lg shadow hover:bg-gray-400 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Sebelumnya
+                    </button>
+                    <span id="slideCounter" class="text-sm text-gray-500">Slide 1 / 10</span>
+                    <button id="nextButton" class="bg-blue-600 text-white font-medium py-2 px-5 rounded-lg shadow hover:bg-blue-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Berikutnya
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Data konten (berdasarkan 9 poin permintaan Anda + 1 slide pembuka)
+        const slides = [
+            {
+                title: "Selamat Datang di Modul PowerPoint",
+                image: "https://placehold.co/800x400/dbeafe/1e3a8a?text=Modul+Lengkap+PowerPoint",
+                body: `
+                    <p>Selamat datang di Media Pembelajaran Interaktif Microsoft PowerPoint.</p>
+                    <p>Aplikasi ini berisi materi lengkap sesuai silabus yang Anda tentukan, mulai dari pengenalan dasar hingga proyek akhir. Gunakan daftar materi di samping atau tombol navigasi di bawah untuk menjelajah.</p>
+                `
+            },
+            {
+                title: "1. Pengenalan Ms. PowerPoint",
+                image: "https://placehold.co/800x400/e0f2fe/0c4a6e?text=Pengenalan+PowerPoint",
+                body: `
+                    <p>Microsoft PowerPoint adalah program untuk membuat presentasi visual. Mari kenali bagian utamanya:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Menu/Ribbon:</strong> Kumpulan semua alat (Home, Insert, Design, Animations, dll) di bagian atas.</li>
+                        <li><strong>Slide:</strong> Ini adalah halaman kerja utama Anda, tempat Anda meletakkan teks, gambar, dan objek lain.</li>
+                        <li><strong>Slide Pane:</strong> Daftar kecil (thumbnail) semua slide Anda di sebelah kiri, berguna untuk navigasi cepat.</li>
+                        <li><strong>Area Kerja:</strong> Bagian tengah tempat Anda mendesain slide yang sedang aktif.</li>
+                    </ul>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Eksplorasi Antarmuka</h4>
+                        <ol class='list-decimal list-inside'>
+                            <li>Buka PowerPoint Anda.</li>
+                            <li>Coba klik setiap menu di <strong>Ribbon</strong> (Home, Insert, Design) dan amati alat apa saja yang muncul.</li>
+                            <li>Buat 3 slide baru dengan menekan <strong>Enter</strong> di Slide Pane.</li>
+                            <li>Klik pada 'Click to add title' dan ketikkan nama Anda.</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                title: "2. Latihan: Membuat Biodata",
+                image: "https://placehold.co/800x400/e0f2fe/0c4a6e?text=Latihan+Biodata",
+                body: `
+                    <p>Ini adalah latihan dasar yang bagus untuk menguasai alat-alat utama.</p>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Membuat Biodata</h4>
+                        <ol class='list-decimal list-inside space-y-2'>
+                            <li>Buat slide baru (Klik kanan di Slide Pane > New Slide).</li>
+                            <li>Gunakan <strong>Text Box</strong> (dari menu <strong>Insert > Text Box</strong>) untuk menambahkan info Anda: Nama, Kelas, Hobi, Cita-cita.</li>
+                            <li>Gunakan <strong>Insert > Picture</strong> untuk menambahkan foto Anda.</li>
+                            <li>Atur tata letak dan ganti font (di menu <strong>Home</strong>) agar terlihat rapi dan menarik.</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                title: "3. Proyek Akhir Semester (Tugas Kelompok)",
+                image: "https://placehold.co/800x400/ccfbf1/0f766e?text=Proyek+Akhir+Kelompok",
+                body: `
+                    <p>Pada akhir semester, Anda akan mengerjakan sebuah proyek besar secara berkelompok. Ini adalah gambaran tugasnya:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Tujuan:</strong> Membuat sebuah media presentasi interaktif (seperti media pembelajaran, profil perusahaan, atau kuis interaktif).</li>
+                        <li><strong>Lingkup:</strong> Proyek ini akan menggabungkan SEMUA materi yang kita pelajari: desain, layout, animasi, transisi, dan hyperlink.</li>
+                        <li><strong>Detail:</strong> Topik spesifik dan pembagian kelompok akan diumumkan lebih lanjut. Mulailah memikirkan ide dari sekarang!</li>
+                    </ul>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Tugas Mandiri: Brainstorming Ide</h4>
+                        <p>Meskipun ini tugas kelompok, mulailah berpikir individu:</p>
+                        <ul class='list-disc list-inside'>
+                            <li>Tuliskan 3 topik yang Anda minati untuk dijadikan media interaktif (Contoh: Tutorial memasak, Sejarah singkat, Kuis biologi).</li>
+                            <li>Pikirkan 1 fitur utama yang ingin Anda tonjolkan (Contoh: menu utama, video, atau kuis).</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                title: "4. Animasi",
+                image: "https://placehold.co/800x400/fae8ff/581c87?text=Animasi",
+                body: `
+                    <p>Animasi membuat objek di dalam slide Anda bergerak. Ini berbeda dengan Transisi (perpindahan antar slide).</p>
+                    <p>Buka tab <strong>Animations</strong>. Ada 3 jenis utama animasi:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Entrance (Masuk):</strong> Mengatur bagaimana cara objek (teks/gambar) muncul di slide (Contoh: Fly In, Fade).</li>
+                        <li><strong>Emphasis (Penekanan):</strong> Memberi efek pada objek yang sudah ada di slide (Contoh: Pulse, Spin).</li>
+                        <li><strong>Exit (Keluar):</strong> Mengatur bagaimana cara objek menghilang dari slide (Contoh: Fly Out).</li>
+                    </ul>
+                    <p class="mt-4">Gunakan <strong>Animation Pane</strong> untuk mengatur urutan dan waktu animasi Anda.</p>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Coba 3 Animasi</h4>
+                        <ol class='list-decimal list-inside'>
+                            <li>Buat 1 slide baru, masukkan 1 <strong>Shape</strong> (misal: bintang).</li>
+                            <li>Pilih bintang itu, buka tab <strong>Animations</strong>.</li>
+                            <li>Beri animasi <strong>Entrance</strong> (misal: 'Fly In').</li>
+                            <li>Klik <strong>'Add Animation'</strong> (penting!) dan tambahkan animasi <strong>Emphasis</strong> (misal: 'Pulse').</li>
+                            <li>Klik <strong>'Add Animation'</strong> lagi dan tambahkan animasi <strong>Exit</strong> (misal: 'Fly Out').</li>
+                            <li>Buka <strong>'Animation Pane'</strong> dan tekan 'Play All' untuk melihat hasilnya.</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                title: "5. Latihan: Poster Teks (5K, 5S, 3M)",
+                image: "https://placehold.co/800x400/fefce8/713f12?text=Poster+Teks+5S",
+                body: `
+                    <p>Latihan ini fokus pada <strong>desain tipografi</strong> dan tata letak teks.</p>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Poster 5S</h4>
+                        <p>Tugas Anda adalah membuat poster sederhana satu slide menggunakan teks saja.</p>
+                        <ul class='list-disc list-inside space-y-2'>
+                            <li>Pilih salah satu topik: <strong>5S</strong>, <strong>5K</strong>, atau <strong>3M</strong>.</li>
+                            <li>Buat judul besar menggunakan <strong>WordArt</strong> (dari menu <strong>Insert</strong>).</li>
+                            <li>Tuliskan 5 poinnya menggunakan <strong>Text Box</strong>.</li>
+                            <li>Gunakan minimal 3 jenis font atau ukuran yang berbeda untuk menciptakan hierarki visual (mana yang penting, mana yang sub-poin).</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                title: "6. Latihan: Poster Infografis",
+                image: "https://placehold.co/800x400/fef2f2/991b1b?text=Infografis+Bahaya+Merokok",
+                body: `
+                    <p>Ini adalah level lanjutan dari poster teks. Infografis menggabungkan data/informasi dengan elemen visual.</p>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Infografis Sederhana</h4>
+                        <ol class='list-decimal list-inside space-y-2'>
+                            <li>Pilih topik: <strong>Bahaya Merokok</strong> atau <strong>Manfaat Buah/Sayur</strong>.</li>
+                            <li>Cari 3-5 poin penting tentang topik itu.</li>
+                            <li>Sajikan poin-poin tersebut di slide menggunakan kombinasi:
+                                <ul class='list-disc list-inside ml-6'>
+                                    <li><strong>Text Box</strong> (untuk poin info).</li>
+                                    <li><strong>Shapes</strong> (untuk bagan, panah, atau bingkai).</li>
+                                    <li><strong>Icons</strong> (dari menu <strong>Insert > Icons</strong>) untuk memperjelas poin.</li>
+                                </ul>
+                            </li>
+                            <li>Fokus pada penyampaian informasi yang jelas dan visual yang menarik.</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                title: "7. Lanjutan: Membuat Intro Video",
+                image: "https://placehold.co/800x400/eef2ff/3730a3?text=Membuat+Intro+Video",
+                body: `
+                    <p>Tahukah Anda PowerPoint bisa membuat video intro singkat? Caranya adalah dengan menggabungkan animasi dan audio.</p>
+                    <p>Langkah-langkah:</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Buat slide dengan logo atau judul Anda.</li>
+                        <li>Terapkan <strong>Animasi</strong> (Entrance dan Emphasis) pada logo dan teks.</li>
+                        <li>Atur timing-nya dengan cermat di <strong>Animation Pane</strong> agar muncul berurutan.</li>
+<li>(Opsional) Tambahkan musik latar via <strong>Insert > Audio</strong>.</li>
+                        <li>Jika sudah puas, simpan sebagai video melalui <strong>File > Export > Create a Video</strong>.</li>
+                    </ol>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Video Intro Nama</h4>
+                        <ol class='list-decimal list-inside space-y-2'>
+                            <li>Di slide kosong, tulis nama Anda dengan <strong>WordArt</strong>.</li>
+                            <li>Beri animasi <strong>Entrance</strong> (misal: 'Zoom').</li>
+                            <li>Atur durasi animasi menjadi 2 detik di <strong>Animation Pane</strong>.</li>
+                            <li>Pergi ke <strong>File > Export > Create a Video</strong>.</li>
+                            <li>Pastikan 'Seconds spent on each slide' adalah 2 (atau sesuai durasi animasi) dan klik 'Create Video'.</li>
+                            <li>Buka file .mp4 yang dihasilkan. Anda baru saja membuat video!</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                title: "8. Fitur Interaktif (Hyperlink, Transisi, Media)",
+                image: "https://placehold.co/800x400/ffedd5/854d0e?text=Fitur+Interaktif",
+                body: `
+                    <p>Ini adalah fitur-fitur kunci untuk Proyek Akhir Anda.</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Hyperlink:</strong> Ini adalah "tombol" Anda. Pilih objek (shape/teks), lalu klik <strong>Insert > Hyperlink > Place in This Document</strong>, dan pilih slide tujuan. Ini cara membuat menu interaktif.</li>
+                        <li><strong>Transisi (Transitions):</strong> Ini adalah efek perpindahan *antar* slide. Buka tab <strong>Transitions</strong> dan pilih efek (Contoh: Morph, Fade, Wipe).</li>
+                        <li><strong>Add Media:</strong> Anda bisa menyisipkan file video atau audio langsung ke slide melalui menu <strong>Insert > Video</strong> atau <strong>Insert > Audio</strong>.</li>
+                    </ul>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Tombol Navigasi</h4>
+                        <ol class='list-decimal list-inside space-y-2'>
+                            <li>Buat 2 slide baru (Slide A dan Slide B).</li>
+                            <li>Di <strong>Slide A</strong>, tambahkan <strong>Shape</strong> kotak dan beri teks "Ke Slide B".</li>
+                            <li>Klik kanan Shape itu > <strong>Hyperlink</strong> > <strong>Place in This Document</strong> > Pilih <strong>Slide B</strong>.</li>
+                            <li>Di <strong>Slide B</strong>, tambahkan Shape panah dan beri teks "Kembali".</li>
+                            <li>Beri Hyperlink pada Shape panah itu agar kembali ke <strong>Slide A</strong>.</li>
+                            <li>Buka tab <strong>Transitions</strong> dan beri efek 'Fade' pada <strong>Slide B</strong>.</li>
+                            <li>Tekan F5 (Slide Show) dan coba klik tombol Anda.</li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                title: "9. Presentasi Proyek Akhir Semester",
+                image: "https://placehold.co/800x400/dcfce7/14532d?text=Presentasi+Final",
+                body: `
+                    <p>Inilah puncak dari modul ini. Saatnya menampilkan hasil Proyek Akhir Semester Anda.</p>
+                    <p>Setiap kelompok akan mempresentasikan media interaktif yang telah dibuat di depan kelas.</p>
+                    <p>Kriteria Penilaian:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Kreativitas dan Kesesuaian Desain Visual.</li>
+                        <li>Kelengkapan Materi dan Informasi.</li>
+                        <li>Fungsionalitas Interaktivitas (Hyperlink dan Tombol).</li>
+                        <li>Penggunaan Animasi dan Transisi yang Tepat.</li>
+                        <li>Kekompakan dan Kerjasama Tim.</li>
+                    </ul>
+                    <div class='border-t-2 border-dashed border-blue-200 mt-6 pt-4'>
+                        <h4 class='text-lg font-semibold text-blue-700 mb-2'>Modul Praktik: Checklist Kesiapan</h4>
+                        <p>Sebelum presentasi, lakukan pengecekan mandiri:</p>
+                        <ul class='list-disc list-inside space-y-2'>
+                            <li>Periksa: Apakah semua tombol (Hyperlink) berfungsi?</li>
+                            <li>Periksa: Apakah ada Hyperlink yang 'mati' atau salah tujuan?</li>
+                            <li>Periksa: Apakah file video/audio (jika ada) sudah di-embed dan bisa diputar?</li>
+                            <li>Periksa: Apakah semua animasi berjalan sesuai urutan di <strong>Animation Pane</strong>?</li>
+                            <li>Periksa: Apakah file sudah disimpan dengan nama yang benar?</li>
+                        </ul>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        // Mendapatkan elemen dari DOM
+        const contentTitle = document.getElementById('contentTitle');
+        const contentBody = document.getElementById('contentBody');
+        const contentImage = document.getElementById('contentImage');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const sidebarList = document.getElementById('sidebarList');
+        const slideCounter = document.getElementById('slideCounter');
+
+        // Fungsi untuk menampilkan slide berdasarkan index
+        function showSlide(index) {
+            // Mengambil data slide
+            const slide = slides[index];
+
+            // Memperbarui konten
+            contentTitle.textContent = slide.title;
+            contentBody.innerHTML = slide.body;
+            contentImage.src = slide.image;
+            contentImage.alt = slide.title; // Teks alt untuk aksesibilitas
+            slideCounter.textContent = `Slide ${index + 1} / ${totalSlides}`;
+
+            // Memperbarui status tombol
+            prevButton.disabled = (index === 0);
+            nextButton.disabled = (index === totalSlides - 1);
+            
+            // Memperbarui status aktif di sidebar
+            updateSidebarActiveState(index);
+        }
+
+        // Fungsi untuk mengisi sidebar
+        function populateSidebar() {
+            slides.forEach((slide, index) => {
+                const li = document.createElement('li');
+                li.className = 'sidebar-item text-gray-700 p-3 rounded-lg hover:bg-gray-200 cursor-pointer transition duration-200';
+                
+                // Mengambil judul saja (menghilangkan '1. ', '2. ', dst.)
+                const titleText = slide.title.includes('.') ? slide.title.split('. ').slice(1).join('. ') : slide.title;
+                li.textContent = titleText;
+                
+                li.setAttribute('data-index', index);
+                
+                li.addEventListener('click', () => {
+                    jumpToSlide(index);
+                });
+                
+                sidebarList.appendChild(li);
+            });
+        }
+        
+        // Fungsi untuk melompat ke slide
+        function jumpToSlide(index) {
+            currentSlideIndex = index;
+            showSlide(currentSlideIndex);
+        }
+
+        // Fungsi untuk memperbarui highlight sidebar
+        function updateSidebarActiveState(index) {
+            const items = document.querySelectorAll('.sidebar-item');
+            items.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Fungsi untuk slide berikutnya
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Fungsi untuk slide sebelumnya
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Menambahkan event listener ke tombol
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        // Inisialisasi aplikasi saat halaman dimuat
+        window.onload = () => {
+            populateSidebar();
+            showSlide(currentSlideIndex);
+        };
+    </script>
+</body>
+</html>
+
